@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000") // Configura el CORS para permitir solicitudes desde el frontend
+@CrossOrigin(origins = "http://localhost:3001") // Configura el CORS para permitir solicitudes desde el frontend
 @RestController
 @RequestMapping("/api/todos")
 public class TodoController {
@@ -44,6 +44,16 @@ public class TodoController {
     @PutMapping("/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todoDetails) {
         try {
+            Optional<Todo> todoOptional = todoService.getTodoById(id);
+            if (todoOptional.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Todo todo = todoOptional.get();
+            // Asegúrate de actualizar tanto el título como el estado de completado
+            todo.setTitle(todoDetails.getTitle());
+            todo.setCompleted(todoDetails.isCompleted());
+
             Todo updatedTodo = todoService.updateTodo(id, todoDetails);
             return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
         } catch (RuntimeException e) {
