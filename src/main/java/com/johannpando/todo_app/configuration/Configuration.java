@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.h2.server.web.WebServlet;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration implements WebMvcConfigurer {
